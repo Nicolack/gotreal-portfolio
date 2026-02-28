@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUZZLE 08 - GOTREAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Syne:wght@400..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body data-barba="wrapper">
+
+    <div class="preloader" id="preloader">
+        <div class="mesh-gradient">
+            <div class="mesh-blob mesh-1"></div>
+            <div class="mesh-blob mesh-2"></div>
+            <div class="mesh-blob mesh-3"></div>
+        </div>
+        <div class="preloader-content">
+            <span class="preloader-text">GOTREAL</span>
+            <div class="preloader-progress"><span id="preloader-percent">0</span>%</div>
+        </div>
+    </div>
+
+    <header class="camera-frame-top">
+        <div class="logo-container">
+            <a href="/index.html" class="brand-link">GOTREAL</a>
+            <span class="subtitle">REALISATEUR &amp; CHEF OP.<br>PUBLICITES, CLIPS MUSICAUX ET FILMS.</span>
+        </div>
+        <nav class="main-nav">
+            <button class="nav-btn" id="btn-about">A PROPOS</button>
+            <a href="/all-projects.html" class="nav-btn" id="btn-projects">TOUS LES PROJETS</a>
+            <button class="nav-btn" id="btn-contact">CONTACT</button>
+        </nav>
+    </header>
+
+    <main class="project-container" id="main-container" data-barba="container" data-barba-namespace="project">
+        <div class="video-wrapper is-expanded" id="main-video-wrapper">
+
+            <!-- Ambilight DANS le video-wrapper pour que position:absolute fonctionne -->
+            <canvas id="ambilight-canvas" aria-hidden="true"></canvas>
+
+            <div class="slider-container" id="slider-container">
+                <video class="main-video slide-video" id="video-current" src="/assets/videos/puzzle-08.mp4" autoplay
+                    loop muted playsinline></video>
+            </div>
+            <div class="video-immersive-ui" id="immersive-ui" style="opacity:1;">
+                <div class="video-header">
+                    <div class="title-wrapper">
+                        <h2 class="video-title" id="title-current">PUZZLE 08</h2>
+                    </div>
+                    <span class="video-role" id="role-main">Realisateur : Gauthier MESSAGER</span>
+                </div>
+                <div class="video-footer">
+                    <div class="timeline" id="timeline">
+                        <div class="timeline-progress" id="timeline-progress" style="width:0%;"></div>
+                    </div>
+                    <div class="video-controls">
+                        <button class="control-btn play-pause-btn" id="btn-pause">PAUSE</button>
+                        <div class="sound-wrapper">
+                            <button class="control-btn sound-btn" id="btn-sound">SON: OFF</button>
+                            <input type="range" class="volume-slider immersive-volume" id="volume-immersive" min="0"
+                                max="1" step="0.01" value="1">
+                        </div>
+                        <button class="control-btn" id="btn-fullscreen">PLEIN ECRAN</button>
+                        <div id="ambilight-switcher" class="amb-dropdown-container">
+                            <span class="amb-label">AMBILIGHT</span>
+                            <div class="amb-dropdown">
+                                <button class="amb-btn amb-active" data-mode="0">GLOW</button>
+                                <button class="amb-btn" data-mode="1">AURORA</button>
+                                <button class="amb-btn" data-mode="2">LASER</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Infos projet (hors video-wrapper pour le scroll) -->
+        <section class="project-details" id="project-details" style="display:block;">
+            <div class="project-info-grid">
+                <div class="col synopsis">
+                    <h3>SYNOPSIS</h3>
+                    <p>Projet Puzzle - Episode 08. Exploration visuelle du quotidien urbain.</p>
+                </div>
+                <div class="col credits">
+                    <h3>CREDITS</h3>
+                    <ul>
+                        <li>Realisateur : Gauthier MESSAGER</li>
+                        <li>Client : Gotreal</li>
+                        <li>Format : 16:9</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="camera-frame-bottom" style="opacity:0; pointer-events:none;"></footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/preloader.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/ambilight.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/transitions.js"></script>
+</body>
+
+</html>

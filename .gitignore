@@ -1,0 +1,31 @@
+# Fichiers lourds (Vidéos et formats non optimisés)
+assets/videos/*
+*.psd
+*.tiff
+*.raw
+*.bmp
+*.cr2
+*.nef
+*.mov
+*.mp4
+
+# Données sensibles & Admin
+data/
+admin.html
+js/admin.js
+css/admin.css
+.env
+*.log
+
+# Dossiers internes
+_brain/
+.agents/
+.gemini/
+
+# Dépendances (au cas où)
+node_modules/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini

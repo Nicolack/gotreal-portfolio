@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOTREAL - Director & DOP</title>
+
+    <!-- SEO & Social Media -->
+    <meta name="description"
+        content="Portfolio de GOTREAL. Réalisateur, DOP et créateur visuel. Publicités, clips musicaux et films à l'esthetique Dark Cinematic.">
+    <meta name="author" content="Gauthier MESSAGER">
+    <meta property="og:title" content="GOTREAL - Director">
+    <meta property="og:description" content="Exploration visuelle et réalisations vidéos.">
+    <meta property="og:image" content="/assets/images/og-image.jpg">
+    <meta property="og:url" content="https://gotreal.rec">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+
+    <!-- Fonts: Syne pour les titres (Grotesque), JetBrains Mono pour l'UI (Monospace) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Syne:wght@400..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css?v=5">
+</head>
+
+<body data-barba="wrapper">
+
+    <!-- Preloader Premium Mesh -->
+    <div class="preloader" id="preloader">
+        <div class="mesh-gradient">
+            <div class="mesh-blob mesh-1"></div>
+            <div class="mesh-blob mesh-2"></div>
+            <div class="mesh-blob mesh-3"></div>
+        </div>
+        <div class="preloader-content">
+            <span class="preloader-text">GOTREAL</span>
+            <div class="preloader-progress"><span id="preloader-percent">0</span>%</div>
+        </div>
+    </div>
+
+    <!-- ===== WEBGL CANVAS GLOBAL (THREE.JS) ===== -->
+    <canvas id="webgl-canvas"
+        style="position: fixed; top: 0; left: 0; z-index: -10; width: 100vw; height: 100vh; pointer-events: none;"></canvas>
+
+    <!-- Camera Frame UI: Éléments épinglés aux coins -->
+    <header class="camera-frame-top">
+        <div class="logo-container">
+            <a href="/index.html" class="brand-link">GOTREAL</a>
+            <div class="subtitle">
+                DIRECTOR & DOP<br>
+                PUBLICITÉS, CLIPS MUSICAUX ET FILMS.
+            </div>
+        </div>
+        <nav class="main-nav">
+            <button class="nav-btn" id="btn-about">À PROPOS</button>
+            <a href="/all-projects.html" class="nav-btn" id="btn-projects">TOUS LES PROJETS</a>
+            <button class="nav-btn" id="btn-contact">CONTACT</button>
+        </nav>
+    </header>
+
+    <!-- Homepage & Project Container -->
+    <main class="home-container" id="main-container" data-barba="container" data-barba-namespace="home">
+        <!-- Container de la vidéo (restreint au centre initialement, 100vw/100vh en focus) -->
+        <div class="video-wrapper" id="main-video-wrapper">
+
+            <!-- Canvas Ambilight : halo de couleurs capturées depuis la vidéo -->
+            <canvas id="ambilight-canvas" aria-hidden="true"></canvas>
+
+            <div class="slider-container" id="slider-container">
+                <video class="main-video slide-video" id="video-current" src="/assets/videos/slalom-not-just-a-club.mp4"
+                    autoplay loop muted playsinline></video>
+            </div>
+
+            <!-- Informations UI superposées qui n'apparaissent qu'en plein écran -->
+            <div class="video-immersive-ui" id="immersive-ui">
+                <div class="video-header">
+                    <div class="title-wrapper">
+                        <h2 class="video-title" id="title-current">SLALOM</h2>
+                    </div>
+                    <span class="video-role" id="role-main">Réalisateur : Gauthier MESSAGER</span>
+                </div>
+                <div class="video-footer">
+                    <div class="timeline" id="timeline">
+                        <div class="timeline-progress" id="timeline-progress"></div>
+                    </div>
+                    <div class="video-controls">
+                        <button class="control-btn play-pause-btn" id="btn-pause">PAUSE</button>
+                        <div class="sound-wrapper">
+                            <button class="control-btn sound-btn" id="btn-sound">SON: OFF</button>
+                            <input type="range" class="volume-slider immersive-volume" id="volume-immersive" min="0"
+                                max="1" step="0.01" value="1">
+                        </div>
+                        <button class="control-btn" id="btn-fullscreen">PLEIN ÉCRAN</button>
+                        <div id="ambilight-switcher" class="amb-dropdown-container">
+                            <span class="amb-label">AMBILIGHT</span>
+                            <div class="amb-dropdown">
+                                <button class="amb-btn amb-active" data-mode="0">GLOW</button>
+                                <button class="amb-btn" data-mode="1">AURORA</button>
+                                <button class="amb-btn" data-mode="2">LASER</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UI Basse de la page d'accueil (Pagination - CielRose replica) -->
+        <footer class="cielrose-timeline">
+            <div class="cielrose-ticks">
+                <pre>|  ' ' ' '  |  ' ' ' '  |  ' ' ' '  |  ' ' ' '  |  ' ' ' '  |  ' ' ' '  |  ' ' ' '  |  ' ' ' '  |  ' ' ' '  |  ' ' ' '  |</pre>
+                <div id="cielrose-cursor" class="cielrose-cursor"></div>
+                <div class="cielrose-numbers" id="cielrose-timeline-numbers">
+                    <span
+                        class="active">01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span>
+                </div>
+            </div>
+
+            <span class="project-index" style="display:none;">01</span>
+        </footer>
+
+    </main>
+
+
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+    <!-- Barba.js pour la SPA -->
+    <script src="https://unpkg.com/@barba/core"></script>
+    <!-- Lenis pour le Smooth Scroll de niveau CielRose -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <!-- App Logic -->
+    <script src="/js/utils.js"></script>
+    <script src="/js/preloader.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/ambilight.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/transitions.js"></script>
+</body>
+
+</html>

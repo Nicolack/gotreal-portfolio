@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /js/admin.js
+Disallow: /data/
+Disallow: /_brain/
+
+Sitemap: https://gotreal.rec/sitemap.xml

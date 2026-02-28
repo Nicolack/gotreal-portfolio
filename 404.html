@@ -1,0 +1,117 @@
+?<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 ÃƒÆ’Ã‚Â¢à¢Ã¢â‚¬Å¡Ã‚Â¬à¢—Ã‚Â SCÃƒÆ’Ã†â€™à€¹Ã¢â‚¬Â NE PERDUE ÃƒÆ’Ã‚Â¢à¢Ã¢â‚¬Å¡Ã‚Â¬à¢—Ã‚Â GOTREAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Syne:wght@400..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .error-container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(circle at center, #1a0510 0%, #000 70%);
+        }
+
+        .error-code {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(8rem, 20vw, 15rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0;
+            background: linear-gradient(to bottom, #fff, #333);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.1;
+            position: absolute;
+            z-index: 0;
+        }
+
+        .error-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .error-text {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+        }
+
+        .btn-home {
+            padding: 1rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+        }
+
+        .btn-home:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0px, rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glitch-overlay"></div>
+
+    <main class="error-container">
+        <div class="error-code">404</div>
+        <div class="error-content">
+            <h1 class="error-title">SCÃƒÆ’Ã†â€™à€¹Ã¢â‚¬Â NE PERDUE</h1>
+            <p class="error-text">Le fichier ou la page que vous cherchez n'est pas dans le montage final.</p>
+            <a href="/index.html" class="btn-home">RETOUR AU SET</a>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        // Petite animation d'entrée
+        gsap.from(".error-title", { y: 30, opacity: 0, duration: 1, ease: "power3.out" });
+        gsap.from(".error-text", { y: 20, opacity: 0, duration: 1, delay: 0.3, ease: "power3.out" });
+        gsap.from(".btn-home", { y: 20, opacity: 0, duration: 1, delay: 0.6, ease: "power3.out" });
+        gsap.from(".error-code", { scale: 0.8, opacity: 0, duration: 2, ease: "expo.out" });
+    </script>
+</body>
+
+</html>

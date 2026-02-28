@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOUS LES PROJETS - GOTREAL</title>
+    <!-- Fonts : JetBrains Mono + Syne -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Syne:wght@400..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css?v=5">
+</head>
+
+<body data-barba="wrapper">
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="mesh-gradient">
+            <div class="mesh-blob mesh-1"></div>
+            <div class="mesh-blob mesh-2"></div>
+            <div class="mesh-blob mesh-3"></div>
+        </div>
+        <div class="preloader-content">
+            <!-- Glitch Text replique exact -->
+            <span class="preloader-text">GOTREAL</span>
+            <div class="preloader-progress"><span id="preloader-percent">0</span>%</div>
+        </div>
+    </div>
+
+    <!-- UI Fixe (Header / Cadre camera) -->
+    <header class="camera-frame-top">
+        <div class="logo-container">
+            <a href="/index.html" class="brand-link">GOTREAL</a>
+            <span class="subtitle">REALISATEUR &amp; CHEF OP.<br>PUBLICITES, CLIPS MUSICAUX ET FILMS.</span>
+        </div>
+        <nav class="main-nav">
+            <!-- Liens interactifs CielRose-like -->
+            <button class="nav-btn" id="btn-about">A PROPOS</button>
+            <a href="/all-projects.html" class="nav-btn" id="btn-projects">TOUS LES PROJETS</a>
+            <button class="nav-btn" id="btn-contact">CONTACT</button>
+        </nav>
+    </header>
+
+    <main class="project-container all-projects-page" id="main-container" data-barba="container"
+        data-barba-namespace="all-projects">
+
+        <div class="overlay-header">
+            <h2>TOUS LES PROJETS</h2>
+        </div>
+        <div class="masonry-grid" id="projects-grid">
+            <!-- 1. SLALOM — 1280x720 (16:9) -->
+            <div class="grid-item">
+                <a href="/projects/slalom.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 1280/720;"><video
+                            src="/assets/videos/slalom-not-just-a-club.mp4" autoplay loop muted playsinline></video>
+                    </div>
+                    <div class="grid-label">SLALOM</div>
+                </a>
+            </div>
+            <!-- 2. PUZZLE 6 — 720x576 (5:4 atypique) -->
+            <div class="grid-item">
+                <a href="/projects/puzzle-06.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 720/576;"><video src="/assets/videos/puzzle-06.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 6</div>
+                </a>
+            </div>
+            <!-- 3. PUZZLE 4 — 1040x816 (atypique ~4:3) -->
+            <div class="grid-item">
+                <a href="/projects/puzzle-04.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 1040/816;"><video src="/assets/videos/puzzle-04.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 4</div>
+                </a>
+            </div>
+            <!-- 4. GOTREAL - METRO — 720x1280 (9:16) -->
+            <div class="grid-item tall">
+                <a href="/projects/gotreal-paris-metro.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 720/1280;"><video
+                            src="/assets/videos/gotreal-paris-metro.mp4" autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">GOTREAL - METRO</div>
+                </a>
+            </div>
+            <!-- 5. PUZZLE 8 — 452x514 (portrait ~1:1.14 atypique) -->
+            <div class="grid-item">
+                <a href="/projects/puzzle-08.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 452/514;"><video src="/assets/videos/puzzle-08.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 8</div>
+                </a>
+            </div>
+            <!-- 6. PUZZLE 1 — 720x1280 (9:16) -->
+            <div class="grid-item tall">
+                <a href="/projects/puzzle-01.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 720/1280;"><video src="/assets/videos/puzzle-01.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 1</div>
+                </a>
+            </div>
+            <!-- 7. PUZZLE 7 — 1168x848 (atypique ~4:3) -->
+            <div class="grid-item">
+                <a href="/projects/puzzle-07.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 1168/848;"><video src="/assets/videos/puzzle-07.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 7</div>
+                </a>
+            </div>
+            <!-- 8. PUZZLE 3 — 720x1280 (9:16) -->
+            <div class="grid-item tall">
+                <a href="/projects/puzzle-03.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 720/1280;"><video src="/assets/videos/puzzle-03.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 3</div>
+                </a>
+            </div>
+            <!-- 9. PUZZLE 5 — 688x544 (atypique ~5:4) -->
+            <div class="grid-item">
+                <a href="/projects/puzzle-05.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 688/544;"><video src="/assets/videos/puzzle-05.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 5</div>
+                </a>
+            </div>
+            <!-- 10. PUZZLE 2 — 720x1280 (9:16) -->
+            <div class="grid-item tall">
+                <a href="/projects/puzzle-02.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 720/1280;"><video src="/assets/videos/puzzle-02.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 2</div>
+                </a>
+            </div>
+            <!-- 11. PUZZLE 9 — 528x496 (presque carre ~1:1) -->
+            <div class="grid-item">
+                <a href="/projects/puzzle-09.html" style="display:block; width:100%; height:100%;">
+                    <div class="grid-content" style="aspect-ratio: 528/496;"><video src="/assets/videos/puzzle-09.mp4"
+                            autoplay loop muted playsinline></video></div>
+                    <div class="grid-label">PUZZLE 9</div>
+                </a>
+            </div>
+    </main>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+    <!-- Barba.js pour la SPA -->
+    <script src="https://unpkg.com/@barba/core"></script>
+    <!-- Lenis pour le Smooth Scroll de niveau CielRose -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <!-- App Logic -->
+    <script src="/js/utils.js"></script>
+    <script src="/js/preloader.js"></script>
+    <script src="/js/animations.js"></script>
+    <script src="/js/ambilight.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/transitions.js"></script>
+</body>
+
+</html>
