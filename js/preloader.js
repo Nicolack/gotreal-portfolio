@@ -1,6 +1,6 @@
 /**
  * preloader.js
- * GÃ¨re le chargement initial de la page avec une progression animÃ©e.
+ * Gère le chargement initial de la page avec une progression animée.
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!preloaderEl || !percentEl) return;
 
-    // --- AUTO-INJECTION DU MESH GRADIENT (Pour compatibilitÃ© sur toutes les pages) ---
+    // --- AUTO-INJECTION DU MESH GRADIENT (Pour compatibilité sur toutes les pages) ---
     if (!preloaderEl.querySelector('.mesh-gradient')) {
         const meshContainer = document.createElement('div');
         meshContainer.className = 'mesh-gradient';
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Simulation fluide de chargement des assets
     const interval = setInterval(() => {
-        // Avance alÃ©atoire pour simuler de vrais assets rÃ©seau
+        // Avance aléatoire pour simuler de vrais assets réseau
         progress += Math.floor(Math.random() * 12) + 4;
 
         if (progress >= 100) {
@@ -32,41 +32,41 @@ document.addEventListener("DOMContentLoaded", () => {
             clearInterval(interval);
             percentEl.textContent = progress;
 
-            // Animation de sortie raffinÃ©e
+            // Animation de sortie "Aspiration"
             const tl = gsap.timeline({
                 onComplete: () => {
                     preloaderEl.style.display = "none";
-                    // Animation d'entrÃ©e des Ã©lÃ©ments principaux amÃ©liorÃ©e
-                    gsap.from(".camera-frame-top", {
-                        y: -50, opacity: 0, duration: 1, ease: "power3.out"
-                    });
-
+                    // La vidéo apparaît en grandissant légèrement (effet pop)
                     gsap.from("#main-video-wrapper", {
-                        scale: 1.1, opacity: 0, duration: 1.8, ease: "expo.out", delay: 0.1
+                        scale: 0.85, 
+                        opacity: 0, 
+                        duration: 1.2, 
+                        ease: "power4.out"
+                    });
+                    gsap.from(".camera-frame-top", {
+                        y: -30, opacity: 0, duration: 1, ease: "power3.out", delay: 0.2
                     });
                 }
             });
 
-            tl.to(".preloader-text", {
-                scale: 1.1,
-                filter: "blur(20px)",
-                opacity: 0,
-                duration: 1,
-                ease: "power2.inOut"
+            // 1. On cache le texte et le pourcentage d'abord
+            tl.to(".preloader-text, .preloader-progress", {
+                opacity: 0, 
+                y: -30, 
+                duration: 0.5, 
+                ease: "power2.in"
             })
-                .to(".mesh-gradient", {
-                    opacity: 0,
-                    duration: 1.2,
-                    ease: "power2.inOut"
-                }, "-=0.8")
-                .to(preloaderEl, {
-                    opacity: 0,
-                    duration: 1,
-                    ease: "power2.inOut"
-                }, "-=0.5");
+            // 2. Le preloader (fond + mesh) rétrécit et se fait aspirer au centre
+            .to(preloaderEl, {
+                scale: 0.1, // Il devient tout petit
+                borderRadius: "100%", // Devient une sphère
+                opacity: 0, // Disparaît
+                duration: 0.8,
+                ease: "back.in(1.5)" // Effet d'aspiration dynamique
+            }, "-=0.2");
+
         } else {
             percentEl.textContent = progress;
         }
     }, 80); // Vitesse de la simulation
 });
-

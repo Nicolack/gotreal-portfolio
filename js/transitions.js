@@ -61,11 +61,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     newWrapper.classList.add("is-expanded");
                     gsap.set(newWrapper, { opacity: 1 });
 
-                    // Animation FLIP
+                    // Animation FLIP ultra-fluide et sans coupure
                     Flip.from(data.flipState, {
                         targets: newWrapper,
-                        duration: 1.2,
-                        ease: "expo.inOut",
+                        duration: 0.8, // Plus rapide
+                        ease: "power4.inOut", // Courbe plus agressive
+                        absolute: true, // Évite les sauts DOM pendant le calcul
                         onComplete: () => {
                             window.isVideoExpanded = true;
                         }
@@ -77,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     projectDetails.style.display = "block";
                     return gsap.fromTo(projectDetails,
                         { opacity: 0, y: 50 },
-                        { opacity: 1, y: 0, duration: 0.8, delay: 0.8, ease: "power2.out" }
+                        { opacity: 1, y: 0, duration: 0.8, delay: 0.4, ease: "power2.out" }
                     );
                 }
             }
