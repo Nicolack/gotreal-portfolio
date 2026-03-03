@@ -5,6 +5,13 @@
 
 const baseGCS = "https://storage.googleapis.com/gotreal-assets-paris";
 
+const formatTime = (seconds) => {
+    if (isNaN(seconds) || seconds < 0) return "00:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
     const videoWrapper = document.getElementById("main-video-wrapper");
 
@@ -26,9 +33,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.allProjects = getProjects(data);
 
         const topProjects = window.allProjects.filter(p => p.rank && p.rank.includes('TOP')).sort((a, b) => {
-            const ra = parseInt(a.rank.match(/\d+/)) || 0;
-            const rb = parseInt(b.rank.match(/\d+/)) || 0;
-            return rb - ra;
+            // 1. Priorité absolue : le forçage manuel (forcePosition)
+            const posA = a.forcePosition !== null ? a.forcePosition : 9999;
+            const posB = b.forcePosition !== null ? b.forcePosition : 9999;
+            
+            if (posA !== posB) {
+                return posA - posB; // Ordre croissant (1 en premier, 2 ensuite...)
+            }
+            
+            // 2. Si pas de forçage (ou position identique), on passe au score automatique
+            const ra = parseInt((a.rank || "").match(/\d+/)) || 0;
+            const rb = parseInt((b.rank || "").match(/\d+/)) || 0;
+            
+            const scoreA = (ra * 10) + (a.visualScore || 0);
+            const scoreB = (rb * 10) + (b.visualScore || 0);
+            
+            return scoreB - scoreA; // Ordre décroissant pour le score
         });
 
         projectsData = topProjects.map(p => ({
@@ -220,6 +240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             sc.querySelectorAll('.incoming-video').forEach(v => v.remove());
             const vid = document.createElement('video');
             vid.className = 'main-video slide-video incoming-video';
+            vid.crossOrigin = "anonymous";
             vid.src = proj.src;
             vid.autoplay = true; vid.loop = true; vid.muted = true; vid.playsInline = true;
             gsap.set(vid, { yPercent: dir > 0 ? 100 : -100 });
@@ -391,20 +412,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     window.initProjectAutoHide = function () {
-        const wrapper = document.getElementById('main-video-wrapper');
         const ui = document.getElementById('immersive-ui');
-        const header = document.querySelector('.camera-frame-top');
-        if (!wrapper || !ui || !header) return;
-        if (!wrapper.classList.contains('is-expanded')) return;
-
-        let titleSlot = document.getElementById('header-project-title');
-        if (!titleSlot) {
-            titleSlot = document.createElement('span');
-            titleSlot.id = 'header-project-title';
-            header.appendChild(titleSlot);
-        }
-        const titleEl = document.getElementById('title-current');
-        titleSlot.textContent = titleEl ? titleEl.textContent : '';
+        if (!ui) return;
 
         let hideTimer = null;
 
@@ -419,15 +428,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             hideTimer = setTimeout(() => {
                 ui.classList.add('controls-hidden');
                 document.body.classList.add('controls-hidden');
-                document.body.style.cursor = 'none';
-            }, 2000);
+            }, 2500);
         }
 
         showControls();
         scheduleHide();
 
-        document.addEventListener('mousemove', () => { showControls(); scheduleHide(); });
-
+        // Écouteurs globaux pour réactivité immédiate
+        window.addEventListener('mousemove', () => { showControls(); scheduleHide(); });
+        window.addEventListener('keydown', () => { showControls(); scheduleHide(); });
+        
+        // Sécurité pour ne pas bloquer quand on survole l'UI
         ui.addEventListener('mouseenter', () => clearTimeout(hideTimer));
         ui.addEventListener('mouseleave', () => scheduleHide());
     };
@@ -437,6 +448,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.bindVideoTimeUpdate = function () {
         const currentVideo = document.getElementById("video-current");
         const timelineProgress = document.getElementById("timeline-progress");
+        const timeCurrent = document.getElementById("time-current");
+        const timeTotal = document.getElementById("time-total");
+
         if (currentVideo && timelineProgress) {
 
             const detectFormat = () => {
@@ -450,10 +464,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             };
 
+            const updateDuration = () => {
+                if (timeTotal && currentVideo.duration) {
+                    timeTotal.textContent = formatTime(currentVideo.duration);
+                }
+            };
+
             if (currentVideo.readyState >= 1) {
                 detectFormat();
+                updateDuration();
             }
-            currentVideo.addEventListener("loadedmetadata", detectFormat);
+            currentVideo.addEventListener("loadedmetadata", () => {
+                detectFormat();
+                updateDuration();
+            });
 
             currentVideo.removeEventListener("timeupdate", window.timeUpdateHandler);
 
@@ -461,6 +485,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (!currentVideo.duration) return;
                 const percent = (currentVideo.currentTime / currentVideo.duration) * 100;
                 timelineProgress.style.width = percent + "%";
+
+                if (timeCurrent) {
+                    timeCurrent.textContent = formatTime(currentVideo.currentTime);
+                }
             };
             currentVideo.addEventListener("timeupdate", window.timeUpdateHandler);
         }
@@ -519,11 +547,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             const wrapper = document.getElementById("main-video-wrapper");
             if (wrapper) {
                 if (!document.fullscreenElement) {
-                    wrapper.requestFullscreen().catch(err => { });
-                    btnFullscreen.textContent = "REDUIRE";
+                    // Utiliser le wrapper pour le plein écran complet
+                    const req = wrapper.requestFullscreen || wrapper.webkitRequestFullscreen || wrapper.msRequestFullscreen;
+                    if (req) {
+                        req.call(wrapper).then(() => {
+                            btnFullscreen.textContent = "REDUIRE";
+                        }).catch(err => {
+                            console.error("Fullscreen error:", err);
+                        });
+                    }
                 } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
+                    const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+                    if (exit) {
+                        exit.call(document);
                         btnFullscreen.textContent = "PLEIN ECRAN";
                     }
                 }
@@ -683,9 +719,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // --- 🛠️ DATA ENGINE (PROJECTS VS FILES) ---
+// Logique de tri Hybrid :
+// 1. forcePosition (Manuel) : 1, 2, 3... (Priorité Absolue)
+// 2. Score Global (Automatique) : (Rank * 10) + Qualité
+//    - Rank : TOP3=3, TOP2=2, TOP1=1
+//    - Qualité (Score Visuel) : 4K=4, 2K=3, 1080p=2, 720p=1
+//    Exemple: TOP3 en 4K = 34 pts | TOP3 en 1080p = 32 pts | TOP2 en 4K = 24 pts
 const PROJECT_METADATA = {
     "Crystal_Chardonnay": {
-        "title": "Crystal Chardonnay",
+        "title": "Crystal Chardonnay", // Score: 31 (Rank: TOP3, Qualité: 1)
         "role": "Réalisateur & DOP",
         "synopsis": "Une exploration visuelle onirique entre ombre et lumière, capturant l'essence vibrante de la nuit parisienne.",
         "credits": {
@@ -696,7 +738,7 @@ const PROJECT_METADATA = {
         }
     },
     "Slalom": {
-        "title": "Slalom - Not Just a Club",
+        "title": "Slalom - Not Just a Club", // Score: 32 (Rank: TOP3, Qualité: 2)
         "role": "Réalisateur",
         "synopsis": "Immersion totale dans l'énergie brute du club Slalom. Une captation cinématique des corps en mouvement.",
         "credits": {
@@ -706,7 +748,7 @@ const PROJECT_METADATA = {
         }
     },
     "Fragments_Nocturne": {
-        "title": "Fragments Nocturne",
+        "title": "Fragments Nocturne", // Score: 32 (Rank: TOP3, Qualité: 2)
         "role": "Directeur Photo",
         "synopsis": "Une série de tableaux nocturnes explorant la solitude urbaine et la beauté des néons artificiels.",
         "credits": {
@@ -716,7 +758,7 @@ const PROJECT_METADATA = {
         }
     },
     "Mandragora_a_Slalom": {
-        "title": "Mandragora @ Slalom",
+        "title": "Mandragora @ Slalom", // Score: 10 (Rank: TOP1, Qualité: 0)
         "role": "Réalisateur & Montage",
         "synopsis": "L'énergie psychédélique de Mandragora capturée en plein cœur du club lillois.",
         "credits": {
@@ -744,6 +786,7 @@ function getProjects(data) {
                 role: meta.role || "Réalisateur : gotreal",
                 description: meta.synopsis || "Exploration visuelle et expérimentation cinématique par GOTREAL.",
                 credits: meta.credits || { "Réalisation": "gotreal" },
+                forcePosition: meta.forcePosition || null,
                 files: []
             });
         }
@@ -753,8 +796,10 @@ function getProjects(data) {
 
         if (!proj.mainFile || item.id.includes('_main')) {
             proj.mainFile = item;
+            proj.visualScore = item.visualScore || 0;
         } else if (!proj.mainFile.id.includes('_main') && item.id.includes('_01')) {
             proj.mainFile = item;
+            proj.visualScore = item.visualScore || 0;
         }
 
         if (item.rank && item.rank !== 'RAW') {
@@ -768,9 +813,22 @@ function getProjects(data) {
 // --- 🎬 HOME (CIELROSE) ---
 function deployHome(data) {
     const projects = window.allProjects.filter(p => p.rank && p.rank.includes('TOP')).sort((a, b) => {
-        const ra = parseInt(a.rank.match(/\d+/)) || 0;
-        const rb = parseInt(b.rank.match(/\d+/)) || 0;
-        return rb - ra;
+        // 1. Priorité absolue : le forçage manuel (forcePosition)
+        const posA = a.forcePosition !== null ? a.forcePosition : 9999;
+        const posB = b.forcePosition !== null ? b.forcePosition : 9999;
+        
+        if (posA !== posB) {
+            return posA - posB; // Ordre croissant (1 en premier, 2 ensuite...)
+        }
+        
+        // 2. Si pas de forçage (ou position identique), on passe au score automatique
+        const ra = parseInt((a.rank || "").match(/\d+/)) || 0;
+        const rb = parseInt((b.rank || "").match(/\d+/)) || 0;
+        
+        const scoreA = (ra * 10) + (a.visualScore || 0);
+        const scoreB = (rb * 10) + (b.visualScore || 0);
+        
+        return scoreB - scoreA; // Ordre décroissant pour le score
     });
 
     const video = document.getElementById('video-current');
@@ -791,6 +849,7 @@ function deployHome(data) {
     const firstProj = window._projectsData[0];
     if (firstProj && video) {
         // 1. On charge la source et on force les règles pour Google Cloud
+        video.crossOrigin = "anonymous";
         video.src = firstProj.src;
         video.muted = true;
         video.playsInline = true;
@@ -883,6 +942,7 @@ function deployArchive(data) {
                             <video class="lazy-video" 
                                    data-src="${previewSrc}" 
                                    data-fallback="${fallbackSrc}"
+                                   crossorigin="anonymous"
                                    autoplay muted loop playsinline></video>
                         </div>
                         <div class="grid-label">${p.displayTitle}</div>

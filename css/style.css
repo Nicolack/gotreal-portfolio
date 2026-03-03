@@ -1,4 +1,4 @@
-/* =========================================
+﻿/* =========================================
    VARIABLES & DESIGN SYSTEM (Dark Cinematic)
    ========================================= */
 :root {
@@ -565,6 +565,18 @@ body.controls-hidden #header-project-title {
     cursor: none;
 }
 
+/* Nouvelles règles pour l'AutoHide global */
+.video-immersive-ui.controls-hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    cursor: none !important;
+}
+
+body.controls-hidden, 
+body.controls-hidden * {
+    cursor: none !important;
+}
+
 .video-header {
     position: absolute;
     top: 50%;
@@ -628,22 +640,27 @@ body.controls-hidden #header-project-title {
     text-align: center;
     transition: opacity 0.35s ease, transform 0.35s ease;
     transform: translateY(0);
+    /* Ombre subtile et précise */
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
 }
 
 .home-container .video-wrapper:hover .video-role {
-    opacity: 0 !important;
-    transform: translateY(-8px);
-    transition: opacity 0.25s ease 0.05s, transform 0.25s ease 0.05s;
+    opacity: 1;
 }
 
 .video-role {
-    font-size: 0.65rem;
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    font-size: 0.7rem;
     letter-spacing: 0.1em;
-    color: var(--text-dim);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    transform: translateY(0);
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    color: rgba(255, 255, 255, 0.5);
+    transition: opacity 0.3s ease;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    z-index: 25;
+    pointer-events: none;
+    text-transform: uppercase;
+    font-family: var(--font-ui);
 }
 
 .home-container .video-wrapper .video-header::after {
@@ -661,7 +678,7 @@ body.controls-hidden #header-project-title {
     transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
     white-space: nowrap;
     pointer-events: none;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 0, 0, 0.6);
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
 }
 
 .home-container .video-wrapper:hover .video-header::after {
@@ -735,6 +752,24 @@ body.controls-hidden #header-project-title {
 
 .control-btn {
     font-size: 0.7rem;
+}
+
+.video-time-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    margin-left: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    pointer-events: none;
+    user-select: none;
+}
+
+#time-current {
+    color: var(--text-color);
+    font-weight: 500;
 }
 
 /* =========================================
@@ -1208,3 +1243,126 @@ body.controls-hidden #header-project-title {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.3);
     transform: scale(1.2);
 }
+/* --- PAGE ABOUT PREMIUM --- */
+.about-main {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 180px 8vw 100px;
+    background: radial-gradient(circle at 10% 20%, rgba(26, 5, 32, 0.4) 0%, transparent 50%);
+}
+
+.about-hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 8vw;
+    align-items: start;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+    .about-hero { grid-template-columns: 1fr; gap: 60px; }
+    .about-main { padding-top: 140px; }
+}
+
+.about-catchphrase h1 {
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.about-catchphrase .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    opacity: 0.6;
+    margin-top: 2.5rem;
+    border-left: 2px solid var(--accent-red);
+    padding-left: 20px;
+}
+
+.about-bio h2 {
+    font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+    margin-bottom: 0.8rem;
+}
+
+.about-bio .alias {
+    opacity: 0.4;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5em;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.role {
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.7rem;
+    color: var(--accent-cyan);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1rem;
+    margin-bottom: 2.5rem;
+    display: inline-block;
+}
+
+.desc {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+}
+
+.about-socials .social-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    opacity: 0.5;
+    margin-bottom: 2rem;
+}
+
+.social-links li {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 1.2rem 0;
+}
+
+.social-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    opacity: 0.4;
+    text-transform: uppercase;
+}
+
+.social-value {
+    color: white !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease;
+}
+
+.social-value:hover {
+    color: var(--accent-cyan) !important;
+}
+
+/* Masquer l'UI quand le navigateur est en plein �cran natif */
+:fullscreen .video-immersive-ui,
+:-webkit-full-screen .video-immersive-ui,
+:-ms-fullscreen .video-immersive-ui {
+    display: none !important;
+}
+
+/* Si le site utilise une classe 'is-expanded' ou similaire sur le body pour son mode cin�ma */
+body.is-expanded .video-immersive-ui {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* Masquage intelligent géré par JS via la classe .controls-hidden */

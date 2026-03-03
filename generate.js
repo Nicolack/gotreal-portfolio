@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 // Les chemins vers tes dossiers
 const videosDir = path.join(__dirname, 'assets', 'videos');
@@ -29,21 +30,37 @@ categories.forEach(category => {
             // On ne prend que les MP4
             if (file.endsWith('.mp4')) {
                 const id = file.replace('.mp4', ''); // Le nom sans l'extension
+                const fullPath = path.join(categoryPath, file);
                 
                 // On cherche le rank (ex: [TOP1], [RAW]) dans le nom du fichier
                 let rank = "RAW";
                 const rankMatch = file.match(/\[(.*?)\]/);
                 if (rankMatch) {
-                    rank = rankMatch[1]; // Récupère ce qui est entre les crochets
+                    rank = rankMatch[1];
+                }
+
+                // 🎬 --- CALCUL DU VISUAL SCORE ---
+                let visualScore = 0;
+                try {
+                    const probe = execSync(`ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=s=x:p=0 "${fullPath}"`).toString().trim();
+                    const height = parseInt(probe);
+                    
+                    if (height >= 2160) visualScore = 4;      // 4K
+                    else if (height >= 1440) visualScore = 3; // 2K
+                    else if (height >= 1080) visualScore = 2; // 1080p
+                    else if (height >= 720) visualScore = 1;  // 720p
+                } catch (e) {
+                    console.warn(`⚠️ ffprobe a échoué pour ${file}`);
                 }
 
                 projects.push({
                     id: id,
                     category: category,
-                    rank: rank
+                    rank: rank,
+                    visualScore: visualScore
                 });
                 
-                console.log(`📁 Trouvé : [${category}] -> ${file}`);
+                console.log(`📁 Trouvé : [${category}] -> ${file} (Score: ${visualScore})`);
             }
         });
     }

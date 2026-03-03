@@ -58,9 +58,9 @@
             </div>
         </div>
         <nav class="main-nav">
-            <button class="nav-btn" id="btn-about">À PROPOS</button>
+            <a href="/about.html" class="nav-btn">À PROPOS</a>
             <a href="/all-projects.html" class="nav-btn" id="btn-projects">TOUS LES PROJETS</a>
-            <button class="nav-btn" id="btn-contact">CONTACT</button>
+            <a href="mailto:gotrealisation@gmail.com?subject=Nouveau%20projet%20-%20Contact%20Portfolio&body=Bonjour%20Gauthier%2C%0D%0A%0D%0AJe%20vous%20contacte%20pour%20vous%20parler%20d'un%20projet...%0D%0A%0D%0A%5BVotre%20message%20ici%5D%0D%0A%0D%0AMes%20coordonn%C3%A9es%20%3A%0D%0ANom%20%3A%0D%0AT%C3%A9l%C3%A9phone%20%3A" class="nav-btn">CONTACT</a>
         </nav>
     </header>
 
@@ -83,7 +83,6 @@
                     <div class="title-wrapper">
                         <h2 class="video-title" id="title-current"></h2>
                     </div>
-                    <span class="video-role" id="role-main">Réalisateur : Gauthier MESSAGER</span>
                 </div>
                 <div class="video-footer">
                     <div class="timeline" id="timeline">
@@ -91,6 +90,9 @@
                     </div>
                     <div class="video-controls">
                         <button class="control-btn play-pause-btn" id="btn-pause">PAUSE</button>
+                        <div class="video-time-display">
+                            <span id="time-current">00:00</span> / <span id="time-total">00:00</span>
+                        </div>
                         <div class="sound-wrapper">
                             <button class="control-btn sound-btn" id="btn-sound">SON: OFF</button>
                             <input type="range" class="volume-slider immersive-volume" id="volume-immersive" min="0"
@@ -107,6 +109,7 @@
                         </div>
                     </div>
                 </div>
+                <span class="video-role" id="role-main">Réalisateur : Gauthier MESSAGER</span>
             </div>
         </div>
 

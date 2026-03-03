@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const baseGCS = "https://storage.googleapis.com/gotreal-assets-paris"; 
         
         // 👇 LIGNE MODIFIÉE 👇
+        videoElement.crossOrigin = "anonymous";
         videoElement.src = `${baseGCS}/assets/videos/${encodeURIComponent(project.category)}/${encodeURIComponent(project.id)}_main.mp4`;
         videoElement.load();
 
