@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Injection de la vidéo (Cherche la version _main)
         const videoElement = document.getElementById('video-current');
-        const baseGCS = "https://storage.googleapis.com/gotreal-assets-paris"; // 👈 On déclare GCS ici aussi
+        const baseGCS = "https://storage.googleapis.com/gotreal-assets-paris"; 
         
         // 👇 LIGNE MODIFIÉE 👇
         videoElement.src = `${baseGCS}/assets/videos/${encodeURIComponent(project.category)}/${encodeURIComponent(project.id)}_main.mp4`;

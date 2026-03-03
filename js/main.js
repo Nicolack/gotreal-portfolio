@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         projectsData = topProjects.map(p => ({
             title: p.displayTitle,
             // 👇 LIGNE MODIFIÉE 👇
-            src: `${baseGCS}/assets/videos/${p.category}/${(p.mainFile || p.files[0]).id}.mp4`,
+            src: `${baseGCS}/assets/videos/${encodeURIComponent(p.category)}/${encodeURIComponent((p.mainFile || p.files[0]).id)}.mp4`,
             url: `/project.html?id=${p.id}`,
             baseId: p.id
         }));
@@ -783,7 +783,7 @@ function deployHome(data) {
     window._projectsData = projects.map(p => ({
         title: p.displayTitle,
         // 👇 LIGNE MODIFIÉE 👇
-        src: `${baseGCS}/assets/videos/${p.category}/${p.mainFile.id}.mp4`,
+        src: `${baseGCS}/assets/videos/${encodeURIComponent(p.category)}/${encodeURIComponent(p.mainFile.id)}.mp4`,
         url: `/project.html?id=${p.id}`,
         baseId: p.id
     }));
