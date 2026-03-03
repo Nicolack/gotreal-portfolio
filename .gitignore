@@ -11,8 +11,8 @@ assets/previews/*
 *.mp4
 
 # Données sensibles & Admin
-data/
-admin.html
+# data/
+# admin.html
 js/admin.js
 css/admin.css
 .env
