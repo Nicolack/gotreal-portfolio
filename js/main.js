@@ -3,10 +3,9 @@
  * Logique principale de l'application (Navigation, Etats, Ecouteurs de base).
  */
 
+const baseGCS = "https://storage.googleapis.com/gotreal-assets-paris";
+
 document.addEventListener("DOMContentLoaded", async () => {
-    // 👇 AJOUTE CETTE LIGNE ICI 👇
-    const baseGCS = "https://storage.googleapis.com/gotreal-assets-paris";
-    
     const videoWrapper = document.getElementById("main-video-wrapper");
 
     window.isVideoExpanded = false;
@@ -791,9 +790,28 @@ function deployHome(data) {
 
     const firstProj = window._projectsData[0];
     if (firstProj && video) {
+        // 1. On charge la source et on force les règles pour Google Cloud
         video.src = firstProj.src;
-        if (title) title.textContent = firstProj.title;
-        video.play().catch(() => {});
+        video.muted = true;
+        video.playsInline = true;
+        video.load();
+        
+        // 2. LE FIX EST LÀ : On injecte le titre ET on force son affichage (Rideau levé !)
+        if (title) {
+            title.textContent = firstProj.title;
+            gsap.set(title, { opacity: 1, visibility: 'visible' });
+        }
+        
+        // 3. On force l'affichage de la vidéo
+        gsap.set(video, { opacity: 1, yPercent: 0, visibility: 'visible' });
+        
+        // 4. On lance la lecture avec un micro-délai
+        setTimeout(() => {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch((e) => console.warn("Autoplay bloqué:", e));
+            }
+        }, 150);
     }
 
     if (numbers) {
@@ -998,4 +1016,5 @@ function initHoverSound() {
             });
         });
     });
-}
+
+}  
