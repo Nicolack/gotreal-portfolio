@@ -4,6 +4,9 @@
  */
 
 document.addEventListener("DOMContentLoaded", async () => {
+    // 👇 AJOUTE CETTE LIGNE ICI 👇
+    const baseGCS = "https://storage.googleapis.com/gotreal-assets-paris";
+    
     const videoWrapper = document.getElementById("main-video-wrapper");
 
     window.isVideoExpanded = false;
@@ -31,7 +34,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         projectsData = topProjects.map(p => ({
             title: p.displayTitle,
-            src: `/assets/videos/${p.category}/${(p.mainFile || p.files[0]).id}.mp4`,
+            // 👇 LIGNE MODIFIÉE 👇
+            src: `${baseGCS}/assets/videos/${p.category}/${(p.mainFile || p.files[0]).id}.mp4`,
             url: `/project.html?id=${p.id}`,
             baseId: p.id
         }));
@@ -778,7 +782,8 @@ function deployHome(data) {
 
     window._projectsData = projects.map(p => ({
         title: p.displayTitle,
-        src: `/assets/videos/${p.category}/${p.mainFile.id}.mp4`,
+        // 👇 LIGNE MODIFIÉE 👇
+        src: `${baseGCS}/assets/videos/${p.category}/${p.mainFile.id}.mp4`,
         url: `/project.html?id=${p.id}`,
         baseId: p.id
     }));
@@ -849,8 +854,9 @@ function deployArchive(data) {
             const safeCat = encodeURIComponent(p.category);
             const safeId = encodeURIComponent(mainFile.id);
             
-            const previewSrc = `/assets/previews/${safeCat}/1080p/${safeId}_p0.mp4`;
-            const fallbackSrc = `/assets/videos/${safeCat}/${safeId}.mp4`;
+            // 👇 LIGNES MODIFIÉES 👇
+            const previewSrc = `${baseGCS}/assets/previews/${safeCat}/1080p/${safeId}_p0.mp4`;
+            const fallbackSrc = `${baseGCS}/assets/videos/${safeCat}/${safeId}.mp4`;
 
             return `
                 <div class="grid-item" style="opacity: 0; transform: translateY(20px);">
